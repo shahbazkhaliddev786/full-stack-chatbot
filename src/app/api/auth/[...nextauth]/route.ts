@@ -21,7 +21,7 @@ const authOptions: NextAuthOptions = {
                 try {
                   const user = await login(email, password);
                   const token = jwt.sign({ id: user.id, email: user.email }, process.env.NEXTAUTH_SECRET!, { expiresIn: '1h' });
-                  user.token = token;
+                 
                   return { ...user, token };
                 //   return user;
                 } catch (error: any) {
