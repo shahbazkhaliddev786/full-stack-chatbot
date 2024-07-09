@@ -37,7 +37,7 @@ const authOptions: NextAuthOptions = {
              if (user) {
                  token.id = user.id;
                  token.email = user.email;
-                 token.accessToken = user.token;
+                //  token.accessToken = user.token;
              }
              return token;
          },
@@ -46,7 +46,7 @@ const authOptions: NextAuthOptions = {
                  session.user = {
                      id: token.id,
                      email: token.email,
-                     accessToken: token.accessToken,
+                    //  accessToken: token.accessToken,
                  };
              }
              return session;
