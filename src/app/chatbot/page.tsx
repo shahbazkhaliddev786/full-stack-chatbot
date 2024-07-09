@@ -27,17 +27,28 @@ export default function Chatbot() {
   const [chats, setChats] = useState<Chat[]>([]);
   const router = useRouter();
 
-  const session = useSession();
-  let id = session.data?.user.id;
+  const { data: session, status } = useSession();
+  // let id = session.data?.user.id;
 
   useEffect(() => {
     const fetchChatsOfUser = async () => {
 
-      if (!id && !session) {
+      if (status === "loading") {
+        console.log("Session is loading...");
+        return;
+      }
+
+      if (!session) {
+        console.log("No session found. Redirecting...");
         router.push('/');
         return;
       }
 
+      const id = session.user?.id;
+      if (!id) {
+        console.log("No user ID found in session.");
+        return;
+      }
       try {
         const response = await fetch(`http://localhost:3000/api/chats/${id}`);
         if (!response.ok) {

@@ -5,8 +5,6 @@ import NextAuth from "next-auth/next";
 import { login } from "../../../../lib/Login";
 import { middleware } from "@/middleware";
 
-
-
 const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
@@ -35,16 +33,16 @@ const authOptions: NextAuthOptions = {
 
          async jwt({ token, user }) {
              if (user) {
-                //  token.id = user.id;
+                 token.id = user.id;
                  token.email = user.email;
                 //  token.accessToken = user.token;
              }
              return token;
          },
-         async session({ session, token }) {
+         async session({ session, token, }) {
              if (token) {
                  session.user = {
-                    //  id: token.id,
+                     id: token.id,
                      email: token.email,
                     //  accessToken: token.accessToken,
                  };
