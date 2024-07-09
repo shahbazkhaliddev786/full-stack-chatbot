@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css"
 
 interface Chat {
   id: number;
+  createdAt: string;
 } 
 
 interface Message {
@@ -22,7 +23,7 @@ interface Message {
 }
 
 export default function Chatbot() {
-  const [chatId, setChatId] = useState<number | null>();
+  const [chatId, setChatId] = useState<number | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [chats, setChats] = useState<Chat[]>([]);
   const router = useRouter();
