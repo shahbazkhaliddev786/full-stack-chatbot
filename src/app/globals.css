@@ -26,6 +26,21 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+/* Hide scrollbars in Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, and Opera */
+}
+
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
