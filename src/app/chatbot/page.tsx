@@ -114,8 +114,10 @@ export default function Chatbot() {
       const messages: Message[] = await response.json();
       setChatId(id);
       setMessages(Array.isArray(messages) ? messages : []);
+      toast.success('Chat Selected');
     } catch (error) {
       console.error('Error selecting chat:', error);
+      toast.error('Error selecting chat');
     }
 
   };
