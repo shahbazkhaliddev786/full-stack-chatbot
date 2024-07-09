@@ -29,27 +29,27 @@ export async function POST(request:Request) {
 }
 
 
-// login with credentials
-export async function login(email: string, password: string) {
-  try {
-    const user = await prisma.user.findUnique({
-        where: { email },
-      });
+// // login with credentials
+// export async function login(email: string, password: string) {
+//   try {
+//     const user = await prisma.user.findUnique({
+//         where: { email },
+//       });
     
-      if (!user) {
-        throw new Error("User not found");
-      }
+//       if (!user) {
+//         throw new Error("User not found");
+//       }
     
-      const isPasswordCorrect = await bcrypt.compare(password, user.password);
-      if (!isPasswordCorrect) {
-        throw new Error("Incorrect password");
-      }
+//       const isPasswordCorrect = await bcrypt.compare(password, user.password);
+//       if (!isPasswordCorrect) {
+//         throw new Error("Incorrect password");
+//       }
     
-      return user;
-  } catch (error:any) {
-      throw new Error(error.message)
-  }
-}
+//       return user;
+//   } catch (error:any) {
+//       throw new Error(error.message)
+//   }
+// }
 
 
 // get all users

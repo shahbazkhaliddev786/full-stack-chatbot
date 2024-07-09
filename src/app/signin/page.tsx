@@ -28,13 +28,11 @@ export default function SignIn() {
         console.error(result.error);
       } else {
         router.push('/chatbot');
-        console.log("Logged in successfully");
         toast.success("Login successfully")
       }
     } catch (error: any) {
       setError('An error occurred during sign-in');
       toast.error("Error in login")
-      console.error("Sign-in error:", error);
     }
   };
 

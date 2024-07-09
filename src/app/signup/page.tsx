@@ -26,7 +26,6 @@ export default function SignUp() {
     });
 
     const data = await res.json();
-    console.log(data)
     if (res.ok) {
       setMessage('Signed up successfully!');
       toast.success("Signed up successfully")
@@ -140,7 +139,7 @@ export default function SignUp() {
         </div>
       </form>
       <div className="mt-4 text-sm text-gray-600 text-center">
-        <p>Already have an account? <Link href="/signin" className="text-black hover:underline">Sign In here</Link>
+        <p>Already have an account? <Link href="/signin" className="text-black hover:underline">Sign In</Link>
         </p>
         {message && <p className="mt-3">{message}</p>}
 
