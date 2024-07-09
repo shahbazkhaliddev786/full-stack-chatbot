@@ -28,16 +28,11 @@ export default function Chatbot() {
   const [chats, setChats] = useState<Chat[]>([]);
   const router = useRouter();
 
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   // let id = session.data?.user.id;
 
   useEffect(() => {
     const fetchChatsOfUser = async () => {
-
-      if (status === "loading") {
-        console.log("Session is loading...");
-        return;
-      }
 
       if (!session) {
         console.log("No session found. Redirecting...");
@@ -78,10 +73,6 @@ export default function Chatbot() {
 
   const createChat = async () => {
     try {
-      if (status === "loading") {
-        console.log("Session is loading...");
-        return;
-      }
 
       if (!session) {
         console.log("No session found. Redirecting...");
@@ -130,7 +121,7 @@ export default function Chatbot() {
         setMessages([]);
       }
       setChats(prevChats => prevChats.filter(chat => chat.id !== id));
-      toast.success(`Chat ${id} Deleted Successfully`);
+      // toast.success(`Chat Deleted Successfully`);
     } catch (error) {
       console.error("Error deleting chat:", error);
       toast.error('Chat Not Deleted');
