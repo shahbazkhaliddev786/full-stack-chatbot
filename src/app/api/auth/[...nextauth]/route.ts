@@ -42,8 +42,8 @@ const authOptions: NextAuthOptions = {
          async session({ session, token, }) {
              if (token) {
                  session.user = {
-                     id: token.id,
-                     email: token.email,
+                     id: token.id as string,
+                     email: token.email as string,
                     //  accessToken: token.accessToken,
                  };
              }
