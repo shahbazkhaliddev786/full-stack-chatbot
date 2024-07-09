@@ -77,6 +77,17 @@ export default function Chatbot() {
 
   const createChat = async () => {
     try {
+      if (status === "loading") {
+        console.log("Session is loading...");
+        return;
+      }
+
+      if (!session) {
+        console.log("No session found. Redirecting...");
+        router.push('/');
+        return;
+      }
+      const id = session.user?.id;
       console.log(id);
       const response = await fetch(`http://localhost:3000/api/chats/${id}`, { method: "POST" });
       
