@@ -20,11 +20,59 @@ export default function PromptForm({ chatId, setMessages }: PromptFormProps) {
 
   const sender = "user";
 
+  // const handlePrompt = async (e: FormEvent) => {
+  //   e.preventDefault();
+  //   if (!chatId) {
+  //     alert("Create or select a chat first");
+  //     return;
+  //   }
+  //   setIsSubmitting(true);
+  //   const tempId = Date.now();
+
+  //   const userPrompt: Message = { id: tempId, content, sender, chatId };
+
+  //   setMessages((prevMessages) => [
+  //     ...prevMessages,
+  //     userPrompt,
+  //     { id: tempId + 1, content: "Loading...", sender: "bot", chatId },
+  //   ]);
+
+  //   setContent("");
+  //   console.log(chatId)
+  //   try {
+  //     const res = await fetch(`/api/messages/${chatId}`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(userPrompt),
+  //     });
+
+  //     const data = await res.json();
+  //     console.log(data);
+  //     if (data.message && data.message.id && data.botResponse) {
+  //       setMessages((prevMessages) =>
+  //         prevMessages.map((msg) =>
+  //           msg.content === "Loading..." && msg.sender === "bot" && msg.chatId === chatId
+  //             ? { id: data.message.id + 1, content: data.botResponse, sender: 'bot', chatId }
+  //             : msg
+  //         )
+  //       );
+  //     } else {
+  //       console.error("Invalid response structure:", data);
+  //     }
+      
+  //     setIsSubmitting(false);
+  //     console.log("Form submitted");
+  //   } catch (error) {
+  //     console.error("Error submitting the prompt:", error);
+  //   }
+  // };
   const handlePrompt = async (e: FormEvent) => {
     e.preventDefault();
     if (!chatId) {
-      alert("Create or select a chat first");
-      return;
+        alert("Create or select a chat first");
+        return;
     }
     setIsSubmitting(true);
     const tempId = Date.now();
@@ -32,43 +80,56 @@ export default function PromptForm({ chatId, setMessages }: PromptFormProps) {
     const userPrompt: Message = { id: tempId, content, sender, chatId };
 
     setMessages((prevMessages) => [
-      ...prevMessages,
-      userPrompt,
-      { id: tempId + 1, content: "Loading...", sender: "bot", chatId },
+        ...prevMessages,
+        userPrompt,
+        { id: tempId + 1, content: "Loading...", sender: "bot", chatId },
     ]);
 
     setContent("");
-    console.log(chatId)
-    try {
-      const res = await fetch(`/api/messages/${chatId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userPrompt),
-      });
 
-      const data = await res.json();
-      console.log(data);
-      if (data.message && data.message.id && data.botResponse) {
-        setMessages((prevMessages) =>
-          prevMessages.map((msg) =>
-            msg.content === "Loading..." && msg.sender === "bot" && msg.chatId === chatId
-              ? { id: data.message.id + 1, content: data.botResponse, sender: 'bot', chatId }
-              : msg
-          )
-        );
-      } else {
-        console.error("Invalid response structure:", data);
-      }
-      
-      setIsSubmitting(false);
-      console.log("Form submitted");
+    try {
+        const res = await fetch(`/api/messages/${chatId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userPrompt),
+        });
+
+        if (!res.ok) {
+            const errorText = await res.text();
+            console.error("Non-OK response:", errorText);
+            throw new Error(`Request failed with status ${res.status}: ${errorText}`);
+        }
+
+        try {
+            const data = await res.json();
+            console.log(data);
+            if (data.message && data.message.id && data.botResponse) {
+                setMessages((prevMessages) =>
+                    prevMessages.map((msg) =>
+                        msg.content === "Loading..." && msg.sender === "bot" && msg.chatId === chatId
+                            ? { id: data.message.id + 1, content: data.botResponse, sender: 'bot', chatId }
+                            : msg
+                    )
+                );
+            } else {
+                console.error("Invalid response structure:", data);
+            }
+        } catch (jsonError) {
+            console.error("Error parsing JSON:", jsonError);
+            throw new Error("Invalid JSON response from server");
+        }
+
+        setIsSubmitting(false);
+        console.log("Form submitted");
     } catch (error) {
-      console.error("Error submitting the prompt:", error);
+        console.error("Error submitting the prompt:", error);
+        alert("Error submitting the prompt. Please try again.");
+        setIsSubmitting(false);
     }
-  };
-  
+};
+
   return (
     <>
       <form onSubmit={handlePrompt} className="mt-5">
