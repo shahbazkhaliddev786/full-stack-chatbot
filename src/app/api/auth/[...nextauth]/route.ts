@@ -1,4 +1,4 @@
-// 'use client'
+
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import jwt from "jsonwebtoken";
@@ -53,10 +53,7 @@ const authOptions: NextAuthOptions = {
     },
     session: {
         strategy: 'jwt',
-    },
-    // pages: {
-    //     signIn: '/auth/signin',
-    // },
+    }
 };
 
 const handler = NextAuth(authOptions);
