@@ -55,9 +55,9 @@ const authOptions: NextAuthOptions = {
     session: {
         strategy: 'jwt',
     },
-    // pages: {
-    //     signIn: '/auth/signin',
-    // },
+    pages: {
+        signIn: '/signin',
+    },
 };
 
 const handler = NextAuth(authOptions);
