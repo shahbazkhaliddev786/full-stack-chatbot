@@ -94,7 +94,7 @@ export default function Chatbot() {
       toast.success('Chat created successfully');
     } catch (error) {
       console.error('Error creating chat:', error);
-      toast.error('Chat not deleted');
+      toast.error('Chat not created');
     }
   };
 
