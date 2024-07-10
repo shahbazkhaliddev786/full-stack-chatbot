@@ -41,6 +41,8 @@ export default function Chatbot() {
       }
 
       const id = session.user?.id;
+      console.log(id);
+      console.log(session);
       if (!id) {
         console.log("No user ID found in session.");
         return;
