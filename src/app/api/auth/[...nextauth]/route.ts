@@ -30,6 +30,7 @@ const authOptions: NextAuthOptions = {
               },
         })
     ],
+    secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
 
          async jwt({ token, user }) {
@@ -54,9 +55,9 @@ const authOptions: NextAuthOptions = {
     session: {
         strategy: 'jwt',
     },
-    pages: {
-        signIn: '/auth/signin',
-    },
+    // pages: {
+    //     signIn: '/auth/signin',
+    // },
 };
 
 const handler = NextAuth(authOptions);
