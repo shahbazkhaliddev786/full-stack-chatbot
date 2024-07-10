@@ -48,7 +48,7 @@ export default function Chatbot() {
         return;
       }
       try {
-        const response = await fetch(`http://localhost:3000/api/chats/${id}`);
+        const response = await fetch(`/api/chats/${id}`);
         if (!response.ok) {
           throw new Error(`Error: ${response.statusText}`);
         }
@@ -60,7 +60,7 @@ export default function Chatbot() {
         if (data.length > 0) {
           const chat = data[0];
           setChatId(chat.id);
-          const messagesResponse = await fetch(`http://localhost:3000/api/messages/${chat.id}`);
+          const messagesResponse = await fetch(`/api/messages/${chat.id}`);
           const initialMessages = await messagesResponse.json();
           setMessages(Array.isArray(initialMessages) ? initialMessages : []);
         }
@@ -83,7 +83,7 @@ export default function Chatbot() {
       }
       const id = session.user?.id;
       console.log(id);
-      const response = await fetch(`http://localhost:3000/api/chats/${id}`, { method: "POST" });
+      const response = await fetch(`/api/chats/${id}`, { method: "POST" });
       
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
@@ -103,7 +103,7 @@ export default function Chatbot() {
   const selectChat = async (id: number) => {
     try {
       console.log("Chat selected:", id);
-      const response = await fetch(`http://localhost:3000/api/messages/${id}`);
+      const response = await fetch(`/api/messages/${id}`);
       const messages: Message[] = await response.json();
       setChatId(id);
       setMessages(Array.isArray(messages) ? messages : []);
@@ -117,7 +117,7 @@ export default function Chatbot() {
 
   const deleteChat = async (id: number) => {
     try {
-      await fetch(`http://localhost:3000/api/chats/${id}`, { method: "DELETE" });
+      await fetch(`/api/chats/${id}`, { method: "DELETE" });
       if (id === chatId) {
         setChatId(null);
         setMessages([]);
