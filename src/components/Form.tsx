@@ -84,7 +84,7 @@ export default function PromptForm({ chatId, setMessages }: PromptFormProps) {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="text-white absolute right-6 bottom-[4rem] bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+          className="text-white absolute right-6 bottom-[3.5rem] bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
         >
           <FaArrowUp />
         </button>
