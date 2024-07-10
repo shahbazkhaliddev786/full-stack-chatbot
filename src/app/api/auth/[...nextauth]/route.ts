@@ -1,4 +1,4 @@
-'use client'
+// 'use client'
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import jwt from "jsonwebtoken";
@@ -45,7 +45,7 @@ const authOptions: NextAuthOptions = {
                  session.user = {
                      id: token.id as string,
                      email: token.email as string,
-                    //  accessToken: token.accessToken,
+                    //  accessToken: token.accessToken as string,
                  };
              }
              return session;
