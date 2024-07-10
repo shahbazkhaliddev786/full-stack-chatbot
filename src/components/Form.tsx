@@ -38,7 +38,7 @@ export default function PromptForm({ chatId, setMessages }: PromptFormProps) {
     ]);
 
     setContent("");
-
+    console.log(chatId)
     try {
       const res = await fetch(`/api/messages/${chatId}`, {
         method: "POST",
