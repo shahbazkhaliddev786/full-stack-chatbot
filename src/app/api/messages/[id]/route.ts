@@ -57,11 +57,11 @@ export async function POST(request: Request, { params }: { params: { id: string 
         const id = params.id;
 
         if (!content || !sender) {
-            return new NextResponse('All fields are required', { status: 400 });
+            return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
         }
 
         if (!id) {
-            return new NextResponse('Chat not found', { status: 400 });
+            return NextResponse.json({ error: 'Chat not found' }, { status: 400 });
         }
 
         // Create user prompt message
@@ -76,7 +76,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
         const botResponse = await getBotResponse(content);
 
         if (botResponse === null) {
-            return new NextResponse(JSON.stringify({ message: 'Bot response is null' }), { status: 500 });
+            return NextResponse.json({ error: 'Bot response is null' }, { status: 500 });
         }
 
         // Create bot response message
@@ -88,10 +88,10 @@ export async function POST(request: Request, { params }: { params: { id: string 
             },
         });
 
-        return new NextResponse(JSON.stringify({ message, botResponse }), { status: 200 });
+        return NextResponse.json({ message, botResponse }, { status: 200 });
     } catch (error: any) {
         console.error('Error creating message:', error);
-        return new NextResponse(JSON.stringify({ message: 'Message not created: ' + error.message }), { status: 500 });
+        return NextResponse.json({ error: 'Message not created: ' + error.message }, { status: 500 });
     }
 }
 
