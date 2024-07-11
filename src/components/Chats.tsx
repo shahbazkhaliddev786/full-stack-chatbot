@@ -24,7 +24,7 @@ export default function Chats({ chats, selectChat, deleteChat }: ChatProps) {
                             className="select-none flex items-center px-4 py-[.775rem] cursor-pointer my-[.4rem] rounded-[.95rem]"
                             onClick={() => selectChat(chat.id)}
                         >
-                            <span className="flex items-center flex-grow text-[1.15rem] dark:text-neutral-400/75 hover:text-dark ">
+                            <span className="flex items-center flex-grow text-[1rem] dark:text-neutral-400/75 hover:text-dark ">
                             {
                                 chat.createdAt
                             }
