@@ -3,17 +3,16 @@
 import "../globals.css";
 import Header from "../../components/Header";
 import PromptForm from "../../components/Form";
-import Chats from "../../components/Chats";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import {toast, ToastContainer} from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import toast, { Toaster } from 'react-hot-toast';
+import Sidebar from "@/components/Sidebar";
 
 interface Chat {
   id: number;
   createdAt: string;
-} 
+}
 
 interface Message {
   id: number;
@@ -29,11 +28,9 @@ export default function Chatbot() {
   const router = useRouter();
 
   const { data: session } = useSession();
-  // let id = session.data?.user.id;
 
   useEffect(() => {
     const fetchChatsOfUser = async () => {
-
       if (!session) {
         console.log("No session found. Redirecting...");
         router.push('/');
@@ -70,25 +67,21 @@ export default function Chatbot() {
     };
 
     fetchChatsOfUser();
-  }, [router]);
-
+  }, [router, session]);
 
   const createChat = async () => {
     try {
-
       if (!session) {
-        console.log("No session found. Redirecting...");
-        router.push('/');
         return;
       }
       const id = session.user?.id;
       console.log(id);
       const response = await fetch(`/api/chats/${id}`, { method: "POST" });
-      
+
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
-  
+
       const res = await response.json();
       setChatId(res.chat.id);
       setMessages(Array.isArray(res.messages) ? res.messages : []);
@@ -112,7 +105,6 @@ export default function Chatbot() {
       console.error('Error selecting chat:', error);
       toast.error('Error selecting chat');
     }
-
   };
 
   const deleteChat = async (id: number) => {
@@ -123,7 +115,7 @@ export default function Chatbot() {
         setMessages([]);
       }
       setChats(prevChats => prevChats.filter(chat => chat.id !== id));
-      // toast.success(`Chat Deleted Successfully`);
+      toast.success(`Chat Deleted Successfully`);
     } catch (error) {
       console.error("Error deleting chat:", error);
       toast.error('Chat Not Deleted');
@@ -131,31 +123,23 @@ export default function Chatbot() {
   };
 
   return (
-    <main className="h-[100vh] w-[100vw] flex">
-       <ToastContainer></ToastContainer>
-      <aside className="h-[100vh] flex flex-col bg-gray-200 w-[20vw] border-r-2 border-black">
-        <div className="flex shrink-0 px-8 items-center justify-between h-[96px]">
-          <h1 className="text-center text-black ml-10">AI Chatbot</h1>
-        </div>
-        <button onClick={createChat} className="text-black ml-2">Create new chat</button>
-        <div className="relative pl-3 my-5 overflow-y-hidden scrollbar-hide overflow-x-hidden">
-          <div className="flex flex-col w-full font-medium">
-            <Chats chats={chats} selectChat={selectChat} deleteChat={deleteChat} />
-          </div>
-        </div>
-      </aside>
-      <section className="w-[80vw] h-[100vh] bg-red-700">
-        <header className="bg-gray-200 h-[10vh]">
+    <main className="h-screen w-screen flex">
+      <Toaster />
+      <div className="bg-gray-200 flex-shrink-0">
+        <Sidebar chats={chats} createChat={createChat} selectChat={selectChat} deleteChat={deleteChat} />
+      </div>
+      <section className="flex-1 h-full bg-red-700 flex flex-col">
+        <header className="bg-gray-200 h-1/10">
           <Header />
         </header>
-        <div className="h-[70vh] bg-[#f0f1f1] py-10 px-10 overflow-y-auto scrollbar-hide">
+        <div className="flex-1 bg-[#f0f1f1] py-10 px-10 overflow-y-auto">
           {messages.length === 0 ? (
-            <div className="w-full flex justify-center items-center mt-[10rem]">
+            <div className="w-full flex justify-center items-center mt-40">
               <p className="text-black">Hi, Let's chat &#128400;</p>
             </div>
           ) : (
             messages.map((message) => (
-              <div key={message.id} className={`w-full flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} mb-[2rem]`}>
+              <div key={message.id} className={`w-full flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} mb-8`}>
                 <div className={`rounded-xl p-4 max-w-[70%] ${message.sender === 'user' ? 'bg-[#d5d5d6]' : 'bg-[#d6d6d6]'}`}>
                   <p className="text-black">{message.content}</p>
                 </div>
@@ -163,10 +147,11 @@ export default function Chatbot() {
             ))
           )}
         </div>
-        <div className="h-[20vh] bg-gray-200 p-[1rem]">
+        <div className="h-2/10 bg-gray-200 p-4">
           <PromptForm chatId={chatId} setMessages={setMessages} />
         </div>
       </section>
     </main>
   );
 }
+

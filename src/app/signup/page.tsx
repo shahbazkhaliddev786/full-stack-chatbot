@@ -2,8 +2,8 @@
 import { useState } from 'react';
 import Link from "next/link";
 import {useRouter} from "next/navigation";
-import {toast, ToastContainer} from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export default function SignUp() {
   const [name, setName] = useState('');
@@ -41,7 +41,7 @@ export default function SignUp() {
 
 <div className="flex h-screen">
   { /* Left Pane */ }
-  <ToastContainer></ToastContainer>
+  <Toaster></Toaster>
   <div className="hidden lg:flex items-center justify-center flex-1 bg-white text-black">
     <div className="max-w-md text-center">
       <svg

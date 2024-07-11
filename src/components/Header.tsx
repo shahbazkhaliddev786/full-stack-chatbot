@@ -1,8 +1,7 @@
 import { signOut } from "next-auth/react";
 import { MouseEvent } from "react";
 import { useRouter } from "next/navigation";
-import {toast, ToastContainer} from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Header() {
   const router = useRouter();
@@ -22,7 +21,7 @@ export default function Header() {
   return (
     <>
       <header className="w-full bg-gray-200 text-black">
-        <ToastContainer></ToastContainer>
+        <Toaster></Toaster>
         <nav className="flex justify-between items-center max-w-7xl mx-auto p-4">
           <div className="w-full md:w-auto flex justify-center md:justify-start">
             <span className="font-semibold text-xl tracking-tight">Chatbot</span>

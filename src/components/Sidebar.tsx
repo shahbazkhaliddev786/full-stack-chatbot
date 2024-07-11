@@ -18,7 +18,7 @@ export default function Sidebar({ chats, createChat, selectChat, deleteChat }:Si
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="">
+    <div>
       <button
         className="md:hidden p-4  fixed top-0 left-0 z-50"
         onClick={() => setIsOpen(!isOpen)}

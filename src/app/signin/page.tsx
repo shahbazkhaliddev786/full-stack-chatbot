@@ -3,8 +3,7 @@ import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
 import { signIn } from 'next-auth/react';
-import {toast, ToastContainer} from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
@@ -38,7 +37,7 @@ export default function SignIn() {
 
   return (
     <div className="flex items-center min-h-screen bg-white dark:bg-gray-900">
-      <ToastContainer></ToastContainer>
+      <Toaster />
       <div className="container mx-auto">
         <div className="max-w-md mx-auto my-10">
           <div className="text-center">
