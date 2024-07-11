@@ -39,9 +39,9 @@ export default function PromptForm({ chatId, setMessages }: PromptFormProps) {
     ]);
 
     setContent("");
-
+    console.log(chatId)
     try {
-      const res = await fetch(`http://localhost:3000/api/messages/${chatId}`, {
+      const res = await fetch(`/api/messages/${chatId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,7 +69,9 @@ export default function PromptForm({ chatId, setMessages }: PromptFormProps) {
       console.error("Error submitting the prompt:", error);
     }
   };
-  
+
+
+
   return (
     <form onSubmit={handlePrompt} className="relative mt-5 flex items-center">
       <input
