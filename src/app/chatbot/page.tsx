@@ -32,8 +32,6 @@ export default function Chatbot() {
   useEffect(() => {
     const fetchChatsOfUser = async () => {
       if (!session) {
-        console.log("No session found. Redirecting...");
-        router.push('/');
         return;
       }
 
