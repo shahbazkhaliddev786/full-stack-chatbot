@@ -146,7 +146,7 @@ export default function SignUp() {
         </div>
       </form>
       <div className="mt-4 text-sm text-gray-600 text-center">
-        <p>Already have an account? <Link href="/signin" className="text-black hover:underline">Sign In</Link>
+        <p>Already have an account? <Link href="/" className="text-black hover:underline">Sign In</Link>
         </p>
         {message && <p className="mt-3">{message}</p>}
 

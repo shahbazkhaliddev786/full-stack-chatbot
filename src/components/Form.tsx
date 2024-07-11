@@ -18,6 +18,7 @@ export default function PromptForm({ chatId, setMessages }: PromptFormProps) {
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+
   const sender = "user";
 
   const handlePrompt = async (e: FormEvent) => {
@@ -70,25 +71,23 @@ export default function PromptForm({ chatId, setMessages }: PromptFormProps) {
   };
   
   return (
-    <>
-      <form onSubmit={handlePrompt} className="mt-5">
-        <input
-          type="search"
-          id="default-search"
-          onChange={(e) => setContent(e.target.value)}
-          value={content}
-          className="block p-4 pl-10 w-full border-none outline-none text-white placeholder-gray-400 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-50"
-          placeholder="Ask your queries"
-          required
-        />
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="text-white absolute right-6 bottom-[2.7rem] bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-        >
-          <FaArrowUp />
-        </button>
-      </form>
-    </>
+    <form onSubmit={handlePrompt} className="relative mt-5 flex items-center">
+      <input
+        type="search"
+        id="default-search"
+        onChange={(e) => setContent(e.target.value)}
+        value={content}
+        className="block p-4 pr-12 w-full border-none outline-none text-white placeholder-gray-400 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Ask your queries"
+        required
+      />
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+      >
+        <FaArrowUp />
+      </button>
+    </form>
   );
 }

@@ -56,11 +56,10 @@ const authOptions: NextAuthOptions = {
         strategy: 'jwt',
     },
     pages: {
-        signIn: '/auth/signin',
+        signIn: '/',
     },
 };
 
 const handler = NextAuth(authOptions);
-// middleware(handler);
 export { handler as GET, handler as POST };
 
