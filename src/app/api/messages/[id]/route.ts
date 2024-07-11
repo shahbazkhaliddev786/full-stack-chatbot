@@ -29,8 +29,10 @@ interface Params {
 //                 chatId
 //             }
 //         });
+//         console.log(message);
 
 //         const botResponse = await getBotResponse(content);
+//         console.log(botResponse)
 
 //         if (botResponse === null) {
 //             return new NextResponse(JSON.stringify({ message: 'Bot response is null' }), { status: 500 });
@@ -74,7 +76,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
         const botResponse = await getBotResponse(content);
 
         if (botResponse === null) {
-            return NextResponse.json({ message: 'Bot response is null' }, { status: 500 });
+            return NextResponse.json({ error: 'Bot response is null' }, { status: 500 });
         }
 
         // Create bot response message
@@ -90,7 +92,8 @@ export async function POST(request: Request, { params }: { params: { id: string 
     } catch (error: any) {
         console.error('Error creating message:', error);
         return NextResponse.json({ message: 'Message not created: ' + error.message }, { status: 500 });
-    }
+
+    } 
 }
 
 

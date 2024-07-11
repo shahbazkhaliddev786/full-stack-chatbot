@@ -1,19 +1,19 @@
 
-"use client";
+"use client"
 import "../globals.css";
 import Header from "../../components/Header";
 import PromptForm from "../../components/Form";
-import Sidebar from "../../components/Sidebar";
+import Chats from "../../components/Chats";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import {toast, ToastContainer} from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 interface Chat {
   id: number;
   createdAt: string;
-}
+} 
 
 interface Message {
   id: number;
@@ -27,15 +27,19 @@ export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [chats, setChats] = useState<Chat[]>([]);
   const router = useRouter();
+
   const { data: session } = useSession();
-  
+  // let id = session.data?.user.id;
 
   useEffect(() => {
     const fetchChatsOfUser = async () => {
+
       if (!session) {
+        console.log("No session found. Redirecting...");
+        router.push('/');
         return;
       }
-      console.log(session)
+
       const id = session.user?.id;
       console.log(id);
       console.log(session);
@@ -43,7 +47,6 @@ export default function Chatbot() {
         console.log("No user ID found in session.");
         return;
       }
-
       try {
         const response = await fetch(`/api/chats/${id}`);
         if (!response.ok) {
@@ -53,51 +56,45 @@ export default function Chatbot() {
         const data = await response.json();
         const allChats = data.chats;
         setChats(allChats);
-        console.log(data);
-        console.log(allChats);
 
-        if (allChats.length > 0) {
-          const chat = allChats[0];
+        if (data.length > 0) {
+          const chat = data[0];
           setChatId(chat.id);
-      
           const messagesResponse = await fetch(`/api/messages/${chat.id}`);
-          if (!messagesResponse.ok) {
-            throw new Error(`Error fetching messages: ${messagesResponse.statusText}`);
-          }
           const initialMessages = await messagesResponse.json();
           setMessages(Array.isArray(initialMessages) ? initialMessages : []);
         }
       } catch (error) {
-        console.error("Error fetching chats:", error);
+        console.error('Error fetching chats:', error);
       }
     };
 
     fetchChatsOfUser();
   }, [router]);
 
+
   const createChat = async () => {
     try {
+
       if (!session) {
         console.log("No session found. Redirecting...");
-        router.push("/");
+        router.push('/');
         return;
       }
       const id = session.user?.id;
+      console.log(id);
       const response = await fetch(`/api/chats/${id}`, { method: "POST" });
-
+      
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
-
+  
       const res = await response.json();
       setChatId(res.chat.id);
       setMessages(Array.isArray(res.messages) ? res.messages : []);
-      setChats((prevChats) => [...prevChats, res.chat]);
-      toast.success("Chat created successfully");
+      setChats(prevChats => [...prevChats, res.chat]);
+      toast.success('Chat created successfully');
     } catch (error) {
-      console.error("Error creating chat:", error);
-      toast.error("Chat not created");
-
       console.error('Error creating chat:', error);
       toast.error('Chat not created');
     }
@@ -110,11 +107,12 @@ export default function Chatbot() {
       const messages: Message[] = await response.json();
       setChatId(id);
       setMessages(Array.isArray(messages) ? messages : []);
-      toast.success("Chat Selected");
+      toast.success('Chat Selected');
     } catch (error) {
-      console.error("Error selecting chat:", error);
-      toast.error("Error selecting chat");
+      console.error('Error selecting chat:', error);
+      toast.error('Error selecting chat');
     }
+
   };
 
   const deleteChat = async (id: number) => {
@@ -124,57 +122,51 @@ export default function Chatbot() {
         setChatId(null);
         setMessages([]);
       }
-      setChats((prevChats) => prevChats.filter((chat) => chat.id !== id));
-      toast.success("Chat Deleted");
+      setChats(prevChats => prevChats.filter(chat => chat.id !== id));
+      // toast.success(`Chat Deleted Successfully`);
     } catch (error) {
       console.error("Error deleting chat:", error);
-      toast.error("Chat Not Deleted");
+      toast.error('Chat Not Deleted');
     }
   };
 
   return (
-    <main className="h-screen bg-gray-200 w-screen flex flex-col md:flex-row">
-      <ToastContainer />
-      <Sidebar
-        chats={chats}
-        createChat={createChat}
-        selectChat={selectChat}
-        deleteChat={deleteChat}
-      />
-      <section className="flex flex-col flex-1 md:w-4/5 h-full bg-red-700">
-        <header className="md:block bg-gray-200 h-1/10">
+    <main className="h-[100vh] w-[100vw] flex">
+       <ToastContainer></ToastContainer>
+      <aside className="h-[100vh] flex flex-col bg-gray-200 w-[20vw] border-r-2 border-black">
+        <div className="flex shrink-0 px-8 items-center justify-between h-[96px]">
+          <h1 className="text-center text-black ml-10">AI Chatbot</h1>
+        </div>
+        <button onClick={createChat} className="text-black ml-2">Create new chat</button>
+        <div className="relative pl-3 my-5 overflow-y-hidden scrollbar-hide overflow-x-hidden">
+          <div className="flex flex-col w-full font-medium">
+            <Chats chats={chats} selectChat={selectChat} deleteChat={deleteChat} />
+          </div>
+        </div>
+      </aside>
+      <section className="w-[80vw] h-[100vh] bg-red-700">
+        <header className="bg-gray-200 h-[10vh]">
           <Header />
         </header>
-        <div className="flex-1 bg-[#f0f1f1] py-10 px-10 overflow-y-auto scrollbar-hide">
-           {messages.length === 0 ? (
-            <div className="w-full flex justify-center items-center mt-40">
+        <div className="h-[70vh] bg-[#f0f1f1] py-10 px-10 overflow-y-auto scrollbar-hide">
+          {messages.length === 0 ? (
+            <div className="w-full flex justify-center items-center mt-[10rem]">
               <p className="text-black">Hi, Let's chat &#128400;</p>
             </div>
           ) : (
             messages.map((message) => (
-              <div
-                key={message.id}
-                className={`w-full flex ${
-                  message.sender === "user" ? "justify-end" : "justify-start"
-                } mb-8`}
-              >
-                <div
-                  className={`rounded-xl p-4 max-w-4/5 ${
-                    message.sender === "user" ? "bg-gray-300" : "bg-gray-400"
-                  }`}
-                >
+              <div key={message.id} className={`w-full flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} mb-[2rem]`}>
+                <div className={`rounded-xl p-4 max-w-[70%] ${message.sender === 'user' ? 'bg-[#d5d5d6]' : 'bg-[#d6d6d6]'}`}>
                   <p className="text-black">{message.content}</p>
                 </div>
               </div>
             ))
-          )} 
+          )}
         </div>
-        <div className="bg-gray-200 p-4 w-full fixed bottom-0 md:relative">
+        <div className="h-[20vh] bg-gray-200 p-[1rem]">
           <PromptForm chatId={chatId} setMessages={setMessages} />
         </div>
       </section>
     </main>
   );
 }
-
-
