@@ -8,6 +8,7 @@ interface Params {
 }
 
 // create new message in a chat
+// create new message
 export async function POST(request: Request, { params }: { params: { id: string } }) {
     try {
         const { content, sender, chatId } = await request.json();
