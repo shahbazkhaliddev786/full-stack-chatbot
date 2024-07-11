@@ -70,8 +70,6 @@ export default function PromptForm({ chatId, setMessages }: PromptFormProps) {
     }
   };
 
-
-
   return (
     <form onSubmit={handlePrompt} className="relative mt-5 flex items-center">
       <input
