@@ -6,7 +6,7 @@ export { default } from 'next-auth/middleware';
 export async function middleware(request: any) {
   const token = await getToken({ req: request });
   if (!token) {
-    return NextResponse.redirect(new URL('/signin', request.url));
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
   if(token){
