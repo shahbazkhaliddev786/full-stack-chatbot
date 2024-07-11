@@ -43,7 +43,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
                 sender: 'bot',
                 chatId: parseInt(id, 10),
             },
-        });
+        })
 
         return NextResponse.json({ message, botResponse }, { status: 200 });
     } catch (error: any) {
